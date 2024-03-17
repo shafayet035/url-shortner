@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "692693ee-29fd-4c3c-a204-a02332c9d267",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "85846f5d-7155-4c95-b937-8a0f06091319",
+  "prevId": "a3d9e0ca-e560-45f9-9ff8-6df5c0ecc41d",
   "tables": {
     "urls": {
       "name": "urls",
@@ -20,6 +20,29 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "viewCount": {
+          "name": "viewCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
+        },
+        "likeCount": {
+          "name": "likeCount",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": 0
         },
         "slug": {
           "name": "slug",
@@ -42,6 +65,13 @@
           "name": "urls_id_unique",
           "columns": [
             "id"
+          ],
+          "isUnique": true
+        },
+        "urls_userId_unique": {
+          "name": "urls_userId_unique",
+          "columns": [
+            "userId"
           ],
           "isUnique": true
         },

@@ -7,7 +7,8 @@
     "dev": "nodemon src/index.ts",
     "build": "tsc",
     "start": "node build/index.js",
-    "migrate:db": "ts-node src/db/migrate.ts"
+    "migrate:generate": "npx drizzle-kit generate:sqlite",
+    "migrate:push": "npx drizzle-kit push:sqlite"
   },
   "keywords": [],
   "author": "",

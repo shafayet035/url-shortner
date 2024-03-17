@@ -10,4 +10,6 @@ export default {
     url: process.env.DB_URL as string,
     authToken: process.env.DB_AUTH_TOKEN as string,
   },
+  verbose: true,
+  strict: true,
 } satisfies Config;

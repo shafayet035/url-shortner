@@ -4,10 +4,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import Axios from '@/config/axios';
 import { useToast } from '@/components/ui/use-toast';
+import { AxiosError } from 'axios';
 
 type Data = {
   shortUrl: string;
   longUrl: string;
+};
+
+type CreateError = {
+  message: string;
 };
 
 function Home() {
@@ -17,6 +22,7 @@ function Home() {
   const { toast } = useToast();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setData(null);
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
     const url = formData.get('url');
@@ -31,7 +37,12 @@ function Home() {
 
       (e.target as HTMLFormElement).reset();
     } catch (error) {
-      console.error(error);
+      const err = error as AxiosError<CreateError>;
+      const errorMessage = err?.response?.data?.message || 'An error occurred';
+      toast({
+        description: errorMessage,
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }

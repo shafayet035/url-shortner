@@ -1,0 +1,1 @@
+ALTER TABLE urls ADD `viewCount` integer DEFAULT 0;

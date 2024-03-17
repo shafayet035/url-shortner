@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "692693ee-29fd-4c3c-a204-a02332c9d267",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "061929bb-55a5-41b6-a162-108664a11135",
+  "prevId": "692693ee-29fd-4c3c-a204-a02332c9d267",
   "tables": {
     "urls": {
       "name": "urls",
@@ -19,6 +19,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
+          "autoincrement": false
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
           "autoincrement": false
         },
         "slug": {
