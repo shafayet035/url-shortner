@@ -2,19 +2,19 @@ import { Request, Response } from 'express';
 import { prisma } from '../db/db';
 
 export async function createUrl(req: Request, res: Response) {
+  if (!req.body.url)
+    return res.status(402).json({
+      message: 'Please provide a valid URL and slug',
+    });
+
   try {
-    if (!req.body.url)
-      return res.status(402).json({
-        message: 'Please provide a valid URL and slug',
-      });
     const url = await prisma.url.create({
       data: {
         slug: req.body.slug,
         url: req.body.url,
-        userId: 1,
+        userId: req.body.userId,
       },
     });
-    console.log(url);
     res.status(200).json({
       message: 'Successfully created the URL',
       shortUrl: `${process.env.CLIENT_URL}/${req.body.slug}`,

@@ -3,14 +3,28 @@ import { prisma } from '../db/db';
 
 const router = express.Router();
 
-router.post('/sign-up', async (req, res) => {
+router.post('/sign-in', async (req, res) => {
+  const { email, name } = req.body;
+
   try {
-    const user = await prisma.user.create({
-      data: {
-        email: req.body.email,
-        name: req.body.name,
+    const isUser = await prisma.user.findUnique({
+      where: {
+        email,
       },
     });
+
+    if (isUser)
+      return res.status(400).json({
+        message: 'User already exists',
+      });
+
+    const user = await prisma.user.create({
+      data: {
+        email,
+        name,
+      },
+    });
+
     res.status(200).json({
       message: 'User created successfully',
       user,
@@ -19,10 +33,6 @@ router.post('/sign-up', async (req, res) => {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
-});
-
-router.post('/sign-in', (req, res) => {
-  res.send('Get URL');
 });
 
 module.exports = router;

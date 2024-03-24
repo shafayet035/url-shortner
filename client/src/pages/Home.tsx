@@ -5,6 +5,10 @@ import { Label } from '@/components/ui/label';
 import Axios from '@/config/axios';
 import { useToast } from '@/components/ui/use-toast';
 import { AxiosError } from 'axios';
+import { signOut } from 'firebase/auth';
+import { auth } from '@/config/firebase';
+import { useAuth } from '@/context/User';
+import { useNavigate } from 'react-router-dom';
 
 type Data = {
   shortUrl: string;
@@ -20,8 +24,12 @@ function Home() {
   const [data, setData] = useState<Data | null>(null);
 
   const { toast } = useToast();
+  const { user, setUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    if (!user) return navigate('/login');
     setData(null);
     e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
@@ -32,6 +40,7 @@ function Home() {
       const { data } = await Axios.post('/url/create', {
         url,
         slug,
+        token: user.accessToken,
       });
       setData(data);
 
@@ -48,8 +57,23 @@ function Home() {
     }
   };
 
+  const signOutHandler = async () => {
+    signOut(auth).then(() => {
+      setUser(null);
+    });
+  };
+
+  const testRequest = async () => {
+    const token = await auth.currentUser?.getIdToken();
+    await Axios.post('/url/something', {
+      token: token,
+    });
+  };
+
   return (
     <div className='max-w-[500px] mx-auto flex-col gap-10 flex items-center justify-center h-screen	'>
+      <Button onClick={signOutHandler}>Logout</Button>
+      <Button onClick={testRequest}>Test Request</Button>
       <form onSubmit={handleSubmit} className='w-full grid gap-6'>
         <div className='grid w-full items-center gap-1.5'>
           <Label htmlFor='url'>Enter Url</Label>
