@@ -3,7 +3,6 @@ import { config } from 'dotenv';
 import path from 'path';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import initializeDB from './db/db';
 import { readdirSync } from 'fs';
 import cors from 'cors';
 
@@ -24,7 +23,6 @@ app.use(
 Initialize Databse
 @returns {Object} db
 */
-export const { db, connection } = initializeDB();
 
 const routresDir = path.join(__dirname, 'routes');
 

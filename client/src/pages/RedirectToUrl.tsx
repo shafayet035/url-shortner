@@ -1,3 +1,4 @@
+import { useToast } from '@/components/ui/use-toast';
 import Axios from '@/config/axios';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -5,6 +6,8 @@ import { useParams } from 'react-router-dom';
 const RedirectToUrl = () => {
   const [loading, setLoading] = useState(false);
   const { slug } = useParams();
+
+  const { toast } = useToast();
 
   useEffect(() => {
     if (slug) {
@@ -16,7 +19,10 @@ const RedirectToUrl = () => {
             window.location.replace(data.url);
           }
         } catch (error) {
-          console.error(error);
+          toast({
+            title: 'URL not found',
+            variant: 'destructive',
+          });
         } finally {
           setLoading(false);
         }

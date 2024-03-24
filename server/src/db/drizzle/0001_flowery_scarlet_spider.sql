@@ -1,1 +1,0 @@
-ALTER TABLE urls ADD `userId` integer;

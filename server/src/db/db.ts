@@ -1,13 +1,11 @@
-import { drizzle } from 'drizzle-orm/libsql';
+import { PrismaClient } from '@prisma/client';
+import { PrismaLibSQL } from '@prisma/adapter-libsql';
 import { createClient } from '@libsql/client';
 
-export default function initializeDB() {
-  const connection = createClient({
-    url: `${process.env.DB_URL}`,
-    authToken: process.env.DB_AUTH_TOKEN as string,
-  });
+const libsql = createClient({
+  url: `${process.env.DB_URL}`,
+  authToken: `${process.env.DB_AUTH_TOKEN}`,
+});
 
-  const db = drizzle(connection);
-
-  return { db, connection };
-}
+const adapter = new PrismaLibSQL(libsql);
+export const prisma = new PrismaClient({ adapter });
